@@ -6,7 +6,7 @@ module.exports = function (content) {
     this.cacheable && this.cacheable();
 
     var options = loaderUtils.getOptions(this) || {};
-    var ngModule = getAndInterpolateOption.call(this, 'module', 'ng'); // ng is the global angular module that does not need to explicitly required
+    var ngAppSelector = getAndInterpolateOption.call(this, 'appSelector', 'ng-app'); // ng is the global angular module that does not need to explicitly required
     var relativeTo = getAndInterpolateOption.call(this, 'relativeTo', '');
     var prefix = getAndInterpolateOption.call(this, 'prefix', '');
     var requireAngular = !!options.requireAngular || false;
@@ -56,7 +56,7 @@ module.exports = function (content) {
     return "var path = '"+jsesc(filePath)+"';\n" +
         "var html = " + html + ";\n" +
         (requireAngular ? "var angular = require('angular');\n" : "window.") +
-        "angular.module('" + ngModule + "').run(['$templateCache', function(c) { c.put(path, html) }]);\n" +
+        "angular.element(document.querySelector('"+ngAppSelector+"')).injector().get('$templateCache').put(path, html);\n"+
         "module.exports = path;";
 
     function getAndInterpolateOption(optionKey, def) {

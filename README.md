@@ -1,5 +1,8 @@
 # AngularJS Template loader for [webpack](http://webpack.github.io/)
 
+A fork of WearyMonkey for my own developnment. Key difference is to replace option module with appSelector to select the angular app root element and then use it to get the $templateCache:
+angular.element(document.querySelector('ng-app-selector')).injector().get('$templateCache').put(path, html);
+
 Includes your AngularJS templates into your webpack Javascript Bundle. Pre-loads the AngularJS template cache
 to remove initial load times of templates.
 
